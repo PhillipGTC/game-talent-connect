@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <title>Game Talent Connect — Gaming meets HR</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
   --cyan:#00BED7;--blue:#3C5ADC;--deep:#00506E;
@@ -291,7 +293,7 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:64px
     <div class="hero-image">
       <div class="portrait-wrapper">
         <div class="portrait-glow"></div><div class="portrait-arc"></div>
-        <img class="portrait-img" src="images/phillip-hero.jpg" alt="Phillip Holler">
+        <img class="portrait-img" src="images/phillip-hero.jpg" alt="Phillip Holler" width="460" height="560" loading="lazy" decoding="async">
       </div>
     </div>
   </div>
@@ -332,7 +334,7 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:64px
     <h2 class="reveal reveal-d1">Die Person hinter <span class="gradient-text">Game Talent Connect.</span></h2>
     <div class="founder-intro">
       <div class="founder-img reveal reveal-d2">
-        <img src="images/phillip-about.jpg" alt="Phillip Holler">
+        <img src="images/phillip-about.jpg" alt="Phillip Holler" width="300" height="400" loading="lazy" decoding="async">
       </div>
       <div class="founder-right reveal reveal-d3">
         <div class="founder-name">Phillip Holler</div>
@@ -448,7 +450,7 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:64px
     <div class="reveal reveal-d3">
       <!-- Calendly inline widget begin -->
       <div class="calendly-inline-widget" data-url="https://calendly.com/phillip-gametalentconnect/kennenlernen-mit-phillip-holler" style="min-width:320px;height:700px;"></div>
-      <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+      <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async defer></script>
       <!-- Calendly inline widget end -->
     </div>
   </div>
@@ -481,12 +483,8 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:64px
 <!-- DATENSCHUTZ -->
 
 
-<script>
-document.querySelectorAll('.reveal').forEach(function(el) {
-  new IntersectionObserver(function(entries) {
-    if(entries[0].isIntersecting) entries[0].target.classList.add('visible');
-  }, {threshold:0.12}).observe(el);
-});
+<script defer>
+var observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting)entry.target.classList.add('visible')})},{threshold:0.12});document.querySelectorAll('.reveal').forEach(function(el){observer.observe(el)});
 var navItems = document.querySelectorAll('.nav-item');
 var panels = document.querySelectorAll('.content-panel');
 setTimeout(function() { var sn = document.getElementById('sidebarNav'); if(sn) sn.classList.add('loaded'); }, 200);
