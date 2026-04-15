@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Talent Connect — Gaming meets HR</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cyan:#00BED7;--blue:#3C5ADC;--deep:#00506E;
+  --dark:#080C14;--dark2:#0D1220;--surface:#111827;--surface2:#151D2E;
+  --white:#F0F4F8;--muted:rgba(240,244,248,0.55);--dim:rgba(240,244,248,0.3);
+  --green:#34D399;--red:#F87171;
+  --border:rgba(240,244,248,0.06);--glow:rgba(0,190,215,0.35);
+}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--white);overflow-x:hidden;font-size:16px;line-height:1.7}
+
+/* TYPOGRAPHY */
+h1,h2,h3,h4{font-weight:900;letter-spacing:-1.5px;line-height:1.1}
+h2{font-size:clamp(32px,5vw,56px);margin-bottom:20px}
+h3{font-size:clamp(20px,2.5vw,28px);margin-bottom:12px;font-weight:700}
+p{color:var(--muted);line-height:1.8;font-weight:300}
+.gradient-text{background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.section-label{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border:1px solid rgba(0,190,215,0.2);border-radius:100px;font-size:13px;font-weight:400;letter-spacing:1.5px;text-transform:uppercase;color:var(--cyan);margin-bottom:28px}
+.section-label::before{content:'';width:6px;height:6px;background:var(--cyan);border-radius:50%;box-shadow:0 0 10px var(--cyan)}
+
+/* LAYOUT */
+.container{max-width:1200px;margin:0 auto;padding:0 48px;width:100%}
+section{position:relative;padding:140px 0;overflow:hidden}
+.glow-divider{height:1px;position:relative;overflow:visible;background:linear-gradient(90deg,transparent 5%,rgba(0,190,215,0.15) 50%,transparent 95%)}
+.glow-divider::after{content:'';position:absolute;top:-4px;left:50%;transform:translateX(-50%);width:8px;height:8px;background:var(--cyan);border-radius:50%;box-shadow:0 0 16px var(--glow)}
+
+/* SCROLL ANIMATIONS */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.8s cubic-bezier(.22,1,.36,1),transform 0.8s cubic-bezier(.22,1,.36,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:0.1s}.reveal-d2{transition-delay:0.2s}.reveal-d3{transition-delay:0.3s}.reveal-d4{transition-delay:0.4s}.reveal-d5{transition-delay:0.5s}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 48px;background:rgba(8,12,20,0.6);backdrop-filter:blur(24px);border-bottom:1px solid rgba(0,190,215,0.08)}
+.nav-logo{font-weight:900;font-size:18px;letter-spacing:-0.5px;color:var(--white);text-decoration:none}
+.nav-logo span{color:var(--cyan)}
+.nav-links{display:flex;gap:32px;align-items:center}
+.nav-links a{color:rgba(240,244,248,0.55);text-decoration:none;font-size:14px;font-weight:400;letter-spacing:0.5px;transition:color 0.3s}
+.nav-links a:hover{color:var(--cyan)}
+.nav-cta-link{padding:10px 24px!important;background:linear-gradient(135deg,var(--cyan),var(--blue))!important;color:var(--dark)!important;font-weight:700!important;border-radius:8px;font-size:13px!important;transition:transform 0.3s,box-shadow 0.3s!important}
+.nav-cta-link:hover{transform:translateY(-1px);box-shadow:0 8px 24px var(--glow)!important;color:var(--dark)!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{display:block;width:24px;height:2px;background:var(--white);transition:0.3s}
+
+/* BUTTONS */
+.btn-gradient{display:inline-flex;align-items:center;gap:10px;padding:18px 40px;background:linear-gradient(135deg,var(--cyan),var(--blue));color:var(--dark);font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;letter-spacing:0.5px;border:none;border-radius:10px;cursor:pointer;text-decoration:none;transition:transform 0.3s,box-shadow 0.3s}
+.btn-gradient:hover{transform:translateY(-2px);box-shadow:0 12px 40px var(--glow)}
+.btn-gradient svg{width:18px;height:18px;transition:transform 0.3s}
+.btn-gradient:hover svg{transform:translateX(4px)}
+
+/* === 1. HERO === */
+.hero{min-height:100vh;display:flex;align-items:center;padding:120px 0 100px}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,190,215,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,190,215,0.05) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,black 20%,transparent 70%)}
+.orb{position:absolute;border-radius:50%;filter:blur(120px);pointer-events:none;animation:orbFloat 8s ease-in-out infinite alternate}
+.orb-1{width:400px;height:400px;background:var(--cyan);opacity:0.2;top:5%;left:-5%}
+.orb-2{width:300px;height:300px;background:var(--blue);opacity:0.18;bottom:10%;right:15%;animation-delay:-3s}
+.orb-3{width:200px;height:200px;background:var(--deep);opacity:0.25;top:40%;left:40%;animation-delay:-5s}
+@keyframes orbFloat{0%{transform:translate(0,0) scale(1)}100%{transform:translate(20px,-15px) scale(1.08)}}
+.hero-inner{position:relative;z-index:10;max-width:1280px;width:100%;margin:0 auto;padding:0 48px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border:1px solid rgba(0,190,215,0.25);border-radius:100px;font-size:13px;font-weight:400;letter-spacing:1.5px;text-transform:uppercase;color:var(--cyan);margin-bottom:36px;opacity:0;animation:fadeUp 0.8s ease forwards 0.3s}
+.hero-tag::before{content:'';width:6px;height:6px;background:var(--cyan);border-radius:50%;box-shadow:0 0 10px var(--cyan);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+.hero-text h1{font-size:clamp(34px,5vw,64px);line-height:1.05;letter-spacing:-2px;margin-bottom:24px;opacity:0;animation:fadeUp 0.8s ease forwards 0.5s}
+.hero-sub{font-size:clamp(15px,1.6vw,18px);font-weight:300;line-height:1.8;color:rgba(240,244,248,0.6);max-width:480px;margin-bottom:40px;opacity:0;animation:fadeUp 0.8s ease forwards 0.7s}
+.hero-cta-wrap{opacity:0;animation:fadeUp 0.8s ease forwards 0.9s}
+.hero-note{margin-top:16px;font-size:13px;color:var(--dim);opacity:0;animation:fadeUp 0.8s ease forwards 1.1s}
+.hero-image{position:relative;display:flex;align-items:center;justify-content:center;opacity:0;animation:fadeUp 1s ease forwards 0.6s}
+.portrait-wrapper{position:relative;width:100%;max-width:460px}
+.portrait-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:85%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(0,190,215,0.1) 0%,transparent 70%);filter:blur(50px);animation:glowPulse 4s ease-in-out infinite alternate}
+@keyframes glowPulse{0%{opacity:0.5;transform:translate(-50%,-50%) scale(1)}100%{opacity:1;transform:translate(-50%,-50%) scale(1.06)}}
+.portrait-arc{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:94%;aspect-ratio:1;border-radius:50%;border:1px solid rgba(0,190,215,0.1)}
+.portrait-arc::before{content:'';position:absolute;top:-1px;left:15%;width:35%;height:3px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);border-radius:2px}
+.portrait-img{position:relative;z-index:2;width:100%;border-radius:20px;mask-image:linear-gradient(to bottom,black 0%,black 65%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,black 0%,black 65%,transparent 100%);filter:brightness(0.92) contrast(1.05)}
+.scroll-indicator{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;z-index:20;opacity:0;animation:fadeUp 0.8s ease forwards 1.4s;pointer-events:none}
+.scroll-indicator span{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(240,244,248,0.25)}
+.scroll-line{width:1px;height:36px;background:linear-gradient(to bottom,var(--cyan),transparent);animation:scrollPulse 2s ease-in-out infinite}
+@keyframes scrollPulse{0%,100%{opacity:0.3;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.2)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* === 2. ANGEBOT === */
+#angebot{background:var(--dark2)}
+.offer-layout{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;margin-top:40px}
+.offer-text p{font-size:17px;margin-bottom:28px}
+.offer-list{list-style:none;display:flex;flex-direction:column;gap:18px}
+.offer-list li{display:flex;align-items:center;gap:14px;font-size:15px;color:var(--white);font-weight:400}
+.offer-list li .check{width:28px;height:28px;border-radius:8px;flex-shrink:0;background:linear-gradient(135deg,rgba(0,190,215,0.15),rgba(60,90,220,0.1));display:flex;align-items:center;justify-content:center}
+.offer-list li .check svg{width:14px;height:14px;stroke:var(--cyan);stroke-width:2.5;fill:none}
+.offer-visual{position:relative;height:400px}
+.float-card{position:absolute;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:0 16px 48px rgba(0,0,0,0.3);transition:transform 0.4s}
+.float-card:hover{transform:translateY(-6px)!important}
+.fc1{width:260px;top:0;left:20px;animation:floatA 5s ease-in-out infinite alternate}
+.fc2{width:240px;top:120px;right:0;animation:floatB 6s ease-in-out infinite alternate}
+.fc3{width:220px;bottom:0;left:60px;animation:floatA 7s ease-in-out infinite alternate-reverse}
+@keyframes floatA{0%{transform:translateY(0)}100%{transform:translateY(-12px)}}
+@keyframes floatB{0%{transform:translateY(0)}100%{transform:translateY(-8px) translateX(4px)}}
+.fc-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.fc-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+.fc-icon svg{width:18px;height:18px;stroke-width:1.8;fill:none}
+.fc-icon.cyan{background:rgba(0,190,215,0.12)}.fc-icon.cyan svg{stroke:var(--cyan)}
+.fc-icon.blue{background:rgba(60,90,220,0.12)}.fc-icon.blue svg{stroke:var(--blue)}
+.fc-title{font-size:14px;font-weight:700;letter-spacing:-0.3px}
+.fc-desc{font-size:12px;color:var(--muted);line-height:1.6}
+.fc-bar{margin-top:12px;height:4px;background:rgba(240,244,248,0.06);border-radius:2px;overflow:hidden}
+.fc-bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--cyan),var(--blue))}
+
+/* === 3. VERTRAUEN === */
+#vertrauen{background:var(--dark)}
+.founder-intro{display:grid;grid-template-columns:300px 1fr;gap:56px;margin-top:44px;align-items:start}
+.founder-img{width:100%;border-radius:16px;overflow:hidden}
+.founder-img img{width:100%;display:block;border-radius:16px;filter:brightness(0.92) contrast(1.05)}
+.founder-name{font-size:clamp(24px,3vw,36px);font-weight:900;letter-spacing:-1px;margin-bottom:4px}
+.founder-role{font-size:14px;color:var(--cyan);font-weight:400;margin-bottom:28px}
+.founder-bio{font-size:16px;line-height:1.9;color:var(--muted);margin-bottom:40px}
+.credentials{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:40px}
+.cred-card{background:linear-gradient(160deg,var(--surface),var(--dark2));border:1px solid var(--border);border-radius:14px;padding:24px;transition:all 0.4s;position:relative;overflow:hidden}
+.cred-card:hover{border-color:rgba(0,190,215,0.15);transform:translateY(-4px)}
+.cred-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--blue));opacity:0;transition:opacity 0.4s}
+.cred-card:hover::before{opacity:1}
+.cred-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.cred-icon svg{width:20px;height:20px;stroke-width:1.8;fill:none}
+.cred-icon.cyan{background:rgba(0,190,215,0.1)}.cred-icon.cyan svg{stroke:var(--cyan)}
+.cred-icon.blue{background:rgba(60,90,220,0.1)}.cred-icon.blue svg{stroke:var(--blue)}
+.cred-card h4{font-size:15px;font-weight:700;letter-spacing:-0.3px;margin-bottom:6px}
+.cred-card p{font-size:13px;color:var(--muted);line-height:1.6}
+.vision-block{background:linear-gradient(135deg,rgba(0,190,215,0.06),rgba(60,90,220,0.04));border:1px solid var(--border);border-radius:14px;padding:32px 36px;position:relative;overflow:hidden}
+.vision-block::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(0,190,215,0.08),transparent 70%);pointer-events:none}
+.vision-label{font-size:13px;font-weight:700;letter-spacing:0.5px;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:14px}
+.vision-block p{font-size:15px;line-height:1.9;color:var(--muted);position:relative}
+
+/* === 4. PLAN === */
+#plan{background:var(--dark2)}
+.plan-sub{font-size:clamp(16px,2vw,20px);font-weight:300;text-align:center;max-width:540px;margin:0 auto}
+.plan-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:48px}
+.plan-step{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:32px 24px;position:relative;transition:all 0.4s;overflow:hidden}
+.plan-step:hover{border-color:rgba(0,190,215,0.2);transform:translateY(-6px)}
+.plan-step::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--blue));opacity:0;transition:opacity 0.4s}
+.plan-step:hover::before{opacity:1}
+.step-num{font-size:56px;font-weight:900;letter-spacing:-3px;background:linear-gradient(180deg,rgba(0,190,215,0.12),transparent);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:16px}
+.plan-step h3{font-size:18px;letter-spacing:-0.5px}
+.plan-step p{font-size:13px}
+
+/* === 5. STAKES === */
+#stakes{background:var(--dark)}
+.stakes-cols{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:48px}
+.stake-box{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:36px;position:relative;overflow:hidden}
+.stake-box.neg{border-left:3px solid rgba(248,113,113,0.4)}
+.stake-box.pos{border-left:3px solid rgba(52,211,153,0.4)}
+.stake-title{display:flex;align-items:center;gap:10px;margin-bottom:24px;font-size:16px;font-weight:700;letter-spacing:-0.3px}
+.stake-title.neg{color:var(--red)}.stake-title.pos{color:var(--green)}
+.stake-dot{width:8px;height:8px;border-radius:50%}
+.stake-dot.neg{background:var(--red);box-shadow:0 0 10px rgba(248,113,113,0.5)}
+.stake-dot.pos{background:var(--green);box-shadow:0 0 10px rgba(52,211,153,0.5)}
+.stake-items{list-style:none;display:flex;flex-direction:column;gap:16px}
+.stake-items li{display:flex;align-items:flex-start;gap:12px;font-size:14px;color:var(--muted);line-height:1.7}
+.stake-items li svg{width:16px;height:16px;flex-shrink:0;margin-top:4px;stroke-width:2.5;fill:none}
+.stake-box.neg li svg{stroke:var(--red)}.stake-box.pos li svg{stroke:var(--green)}
+
+/* === 6. LEISTUNGEN (Sidebar) === */
+#leistungen{background:var(--dark2)}
+.sidebar-layout{display:grid;grid-template-columns:320px 1fr;gap:0;margin-top:48px;min-height:500px}
+.sidebar-nav{position:relative;border-right:1px solid var(--border);padding-right:32px}
+.sidebar-nav::before{content:'';position:absolute;top:0;bottom:0;right:-1px;width:3px;background:linear-gradient(180deg,var(--cyan),var(--blue));border-radius:2px;transform:scaleY(0);transform-origin:top;transition:transform 0.6s cubic-bezier(.22,1,.36,1)}
+.sidebar-nav.loaded::before{transform:scaleY(1)}
+.nav-item{display:flex;align-items:center;gap:16px;padding:20px 24px;margin-bottom:4px;border-radius:12px 0 0 12px;cursor:pointer;transition:all 0.3s;position:relative}
+.nav-item:hover{background:rgba(240,244,248,0.02)}
+.nav-item.active{background:rgba(0,190,215,0.05)}
+.nav-item::after{content:'';position:absolute;right:-2px;top:50%;width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--glow);transform:translateY(-50%) scale(0);transition:transform 0.3s}
+.nav-item.active::after{transform:translateY(-50%) scale(1)}
+.s-nav-icon{width:44px;height:44px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.3s;background:rgba(240,244,248,0.03)}
+.nav-item.active .s-nav-icon{background:rgba(0,190,215,0.12)}
+.s-nav-icon svg{width:22px;height:22px;stroke-width:1.6;fill:none;stroke:var(--dim);transition:stroke 0.3s}
+.nav-item.active .s-nav-icon svg{stroke:var(--cyan)}
+.s-nav-title{font-size:15px;font-weight:700;letter-spacing:-0.2px;transition:color 0.3s;color:var(--muted)}
+.nav-item.active .s-nav-title{color:var(--white)}
+.s-nav-sub{font-size:12px;color:var(--dim);margin-top:2px;transition:color 0.3s}
+.nav-item.active .s-nav-sub{color:var(--muted)}
+.content-area{padding-left:48px}
+.content-panel{display:none;animation:panelSlide 0.5s cubic-bezier(.22,1,.36,1)}
+.content-panel.active{display:block}
+.panel-header-row{display:flex;align-items:center;gap:16px;margin-bottom:32px}
+.panel-num{font-size:56px;font-weight:900;letter-spacing:-3px;line-height:1;background:linear-gradient(180deg,rgba(0,190,215,0.15),transparent);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.panel-header-row h3{font-size:28px;letter-spacing:-1px}
+.panel-body p{font-size:16px;margin-bottom:16px;line-height:1.9}
+.usp-box{margin-top:32px;padding:24px 28px;background:linear-gradient(135deg,rgba(0,190,215,0.06),rgba(60,90,220,0.04));border:1px solid rgba(0,190,215,0.12);border-radius:14px;display:flex;align-items:flex-start;gap:16px}
+.usp-icon{width:44px;height:44px;border-radius:12px;flex-shrink:0;background:rgba(0,190,215,0.1);display:flex;align-items:center;justify-content:center}
+.usp-icon svg{width:20px;height:20px;stroke:var(--cyan);stroke-width:2;fill:none}
+.usp-text .usp-label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--cyan);margin-bottom:6px;font-weight:600}
+.usp-text p{font-size:14px;margin:0}
+.feature-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.pill{padding:8px 16px;background:var(--surface);border:1px solid var(--border);border-radius:100px;font-size:12px;font-weight:500;color:var(--muted);transition:all 0.3s}
+.pill:hover{border-color:rgba(0,190,215,0.2);color:var(--cyan)}
+@keyframes panelSlide{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
+
+/* === 7. FINAL CTA === */
+#kontakt{background:var(--dark);text-align:center}
+#kontakt h2{font-size:clamp(36px,6vw,64px)}
+.final-note{margin-top:18px;font-size:14px;color:var(--dim)}
+
+/* === FOOTER === */
+footer{background:var(--surface);border-top:1px solid var(--border);padding:64px 0 32px}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.5fr;gap:40px;margin-bottom:48px}
+.footer-brand .nav-logo{display:inline-block;margin-bottom:14px;font-size:16px}
+.footer-brand p{font-size:13px;color:var(--muted);max-width:260px}
+.footer-col h4{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--cyan);margin-bottom:16px}
+.footer-col a{display:block;color:var(--muted);text-decoration:none;font-size:13px;margin-bottom:10px;transition:color 0.3s}
+.footer-col a:hover{color:var(--cyan)}
+.footer-nl{background:rgba(0,190,215,0.04);border:1px solid var(--border);border-radius:14px;padding:24px}
+.footer-nl h4{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--cyan);margin-bottom:8px}
+.footer-nl p{font-size:12px;color:var(--muted);margin-bottom:12px}
+.footer-nl .nl-form{display:flex;flex-direction:column;gap:8px}
+.footer-nl .nl-form input{padding:12px 16px;background:var(--dark);border:1px solid var(--border);border-radius:8px;color:var(--white);font-family:'Outfit',sans-serif;font-size:13px;outline:none;transition:border-color 0.3s}
+.footer-nl .nl-form input::placeholder{color:var(--dim)}
+.footer-nl .nl-form input:focus{border-color:var(--cyan)}
+.footer-nl .nl-form button{padding:10px;background:linear-gradient(135deg,var(--cyan),var(--blue));color:var(--dark);font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;border:none;border-radius:8px;cursor:pointer;transition:all 0.3s}
+.footer-nl .nl-form button:hover{box-shadow:0 4px 16px var(--glow)}
+.footer-nl .nl-note{font-size:10px;color:var(--dim);margin-top:8px;line-height:1.5}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:24px;border-top:1px solid var(--border)}
+.footer-bottom span{font-size:12px;color:var(--dim)}
+.footer-socials{display:flex;gap:12px}
+.footer-socials a{width:36px;height:36px;border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;transition:all 0.3s}
+.footer-socials a svg{width:16px;height:16px;stroke:var(--muted);stroke-width:1.8;fill:none}
+.footer-socials a:hover{border-color:var(--cyan);background:rgba(0,190,215,0.06)}
+.footer-socials a:hover svg{stroke:var(--cyan)}
+
+
+
+/* === RESPONSIVE === */
+@media(max-width:1024px){
+  .container{padding:0 32px}nav{padding:18px 32px}
+  .hero-inner,.offer-layout{grid-template-columns:1fr}
+  .founder-intro{grid-template-columns:220px 1fr;gap:36px}.credentials{grid-template-columns:1fr}
+  .plan-grid{grid-template-columns:repeat(2,1fr)}
+  .sidebar-layout{grid-template-columns:1fr}.sidebar-nav{border-right:none;border-bottom:none;padding-right:0;padding-bottom:0;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;overflow:visible}.sidebar-nav::before{display:none}.nav-item{border-radius:12px;padding:14px 16px;margin-bottom:0;flex-shrink:0;border:1px solid var(--border);background:var(--surface);text-align:center;flex-direction:column;gap:8px;justify-content:center;align-items:center}.nav-item.active{border-color:var(--cyan);background:rgba(0,190,215,0.08);box-shadow:0 0 16px rgba(0,190,215,0.15)}.nav-item::after{display:none}.s-nav-sub{display:none}.content-area{padding-left:0;padding-top:32px}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  .container{padding:0 20px}nav{padding:14px 20px}section{padding:100px 0}
+  .nav-links{display:none;position:fixed;top:60px;left:0;right:0;flex-direction:column;background:rgba(8,12,20,0.98);padding:24px 20px;gap:16px;border-bottom:1px solid var(--border)}
+  .nav-links.open{display:flex}.hamburger{display:flex}
+  .hero{padding:100px 0 80px}
+  .hero-inner{grid-template-columns:1fr;text-align:center;padding:0 20px}.hero-sub{margin:0 auto 36px}.hero-image{order:-1;margin-bottom:16px}.portrait-wrapper{max-width:260px;margin:0 auto}
+  .scroll-indicator{bottom:12px}
+  .founder-intro{grid-template-columns:1fr}.founder-img{max-width:220px;margin:0 auto}
+  .plan-grid,.stakes-cols{grid-template-columns:1fr}
+  .sidebar-layout{gap:0}
+  .sidebar-nav{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding-bottom:0;position:relative;border-bottom:none;overflow:visible}
+  .sidebar-nav::after{display:none}
+  .nav-item{border-radius:12px;padding:14px 16px;margin-bottom:0;flex-shrink:0;border:1px solid var(--border);background:var(--surface);text-align:center;flex-direction:column;gap:8px;justify-content:center;align-items:center}
+  .nav-item.active{border-color:var(--cyan);background:rgba(0,190,215,0.08);box-shadow:0 0 16px rgba(0,190,215,0.15)}
+  .nav-item .s-nav-icon{width:36px;height:36px}
+  .nav-item .s-nav-icon svg{width:18px;height:18px}
+  .s-nav-title{font-size:12px;text-align:center;line-height:1.3}
+  .s-nav-sub{display:none}
+  .content-area{padding-top:24px}
+  .footer-grid{grid-template-columns:1fr}.footer-bottom{flex-direction:column;gap:16px;text-align:center}
+  .offer-visual{display:none}.legal-overlay{padding:80px 20px}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="#" class="nav-logo" onclick="#">Game <span>Talent</span> Connect</a>
+  <div class="nav-links" id="navLinks">
+    <a href="#leistungen">Leistungen</a>
+    <a href="#vertrauen">Über mich</a>
+    <a href="#erstgespraech">Kontakt</a>
+    <a href="#erstgespraech" class="nav-cta-link">Erstgespräch</a>
+  </div>
+  <div class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- 1. HERO -->
+<section class="hero" id="hero">
+  <div class="hero-grid"></div>
+  <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-tag">Gaming meets HR</div>
+      <h1>Wir machen Teams<br>stärker. <span class="gradient-text">Mit Gaming.</span></h1>
+      <p class="hero-sub">Dein Unternehmen gewinnt die richtigen Talente, baut starke Teams auf und bleibt als Arbeitgeber im Kopf. Durch Formate, die begeistern statt langweilen.</p>
+      <div class="hero-cta-wrap"><a href="#erstgespraech" class="btn-gradient">Kostenloses Erstgespräch buchen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
+      <p class="hero-note">Kostenlos · Unverbindlich · 30 Minuten</p>
+    </div>
+    <div class="hero-image">
+      <div class="portrait-wrapper">
+        <div class="portrait-glow"></div><div class="portrait-arc"></div>
+        <img class="portrait-img" src="images/phillip-hero.jpg" alt="Phillip Holler">
+      </div>
+    </div>
+  </div>
+  <div class="scroll-indicator"><span>Scroll</span><div class="scroll-line"></div></div>
+</section>
+<div class="glow-divider"></div>
+
+<!-- 2. ANGEBOT -->
+<section id="angebot">
+  <div class="container">
+    <div class="section-label reveal">Unser Angebot</div>
+    <h2 class="reveal reveal-d1">Personalentwicklung und Recruiting,<br>die wirklich <span class="gradient-text">funktionieren.</span></h2>
+    <div class="offer-layout">
+      <div class="offer-text reveal reveal-d2">
+        <p>Wir nutzen Gaming-Szenarien, um echtes Verhalten sichtbar zu machen. Keine auswendig gelernten Antworten, keine aufgesetzten Rollenspiele. Stattdessen erleben eure Teams und Bewerber Situationen, in denen sie zeigen, wer sie wirklich sind.</p>
+        <ul class="offer-list">
+          <li><span class="check"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span>Teambuilding, das Soft Skills tatsächlich trainiert</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span>Recruiting, das über den Lebenslauf hinausgeht</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span>Messeauftritte, die bei Gen Z im Kopf bleiben</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span>Beratung für eine Unternehmenskultur, die anzieht</li>
+        </ul>
+        <div style="margin-top:40px"><a href="#erstgespraech" class="btn-gradient">Erstgespräch buchen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
+      </div>
+      <div class="offer-visual reveal reveal-d3">
+        <div class="float-card fc1"><div class="fc-header"><div class="fc-icon cyan"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg></div><span class="fc-title">Teambuilding</span></div><p class="fc-desc">Soft-Skill Training durch erlebnisbasierte Gaming-Szenarien</p><div class="fc-bar"><div class="fc-bar-fill" style="width:88%"></div></div></div>
+        <div class="float-card fc2"><div class="fc-header"><div class="fc-icon blue"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div><span class="fc-title">Recruiting</span></div><p class="fc-desc">Gaming-basierte Assessment Center</p><div class="fc-bar"><div class="fc-bar-fill" style="width:75%"></div></div></div>
+        <div class="float-card fc3"><div class="fc-header"><div class="fc-icon cyan"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><span class="fc-title">Messen & Events</span></div><p class="fc-desc">Gaming-Erlebnis für Gen Z auf Jobmessen</p><div class="fc-bar"><div class="fc-bar-fill" style="width:94%"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="glow-divider"></div>
+
+<!-- 3. VERTRAUEN -->
+<section id="vertrauen">
+  <div class="container">
+    <div class="section-label reveal">Über mich</div>
+    <h2 class="reveal reveal-d1">Die Person hinter <span class="gradient-text">Game Talent Connect.</span></h2>
+    <div class="founder-intro">
+      <div class="founder-img reveal reveal-d2">
+        <img src="images/phillip-about.jpg" alt="Phillip Holler">
+      </div>
+      <div class="founder-right reveal reveal-d3">
+        <div class="founder-name">Phillip Holler</div>
+        <div class="founder-role">Gründer · Game Talent Connect</div>
+        <p class="founder-bio">Ich bin Phillip Holler, zertifizierter Eventmanager im E-Sport und Gründer von Game Talent Connect. Gaming begleitet mich seit meiner Kindheit. Heute nutze ich es professionell, um Unternehmen dabei zu unterstützen, Talente besser zu verstehen, Teams zu stärken und moderne HR-Strategien umzusetzen. Mein Ansatz verbindet Gaming, Employer Branding und moderne Recruiting-Methoden zu einem Konzept, das messbar wirkt.</p>
+        <div class="credentials">
+          <div class="cred-card"><div class="cred-icon cyan"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14M22 4L12 14.01l-3-3" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h4>Zertifizierter E-Sport Eventmanager</h4><p>Professionelle Expertise in Gaming & E-Sport-Events</p></div>
+          <div class="cred-card"><div class="cred-icon blue"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2zM22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h4>IHK Kaufmann für Dialogmarketing</h4><p>Fundierte Expertise in Kommunikation & Kundenmanagement</p></div>
+          <div class="cred-card"><div class="cred-icon cyan"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h4>Ehrenamt im E-Sport</h4><p>Mehrere Jahre Ehrenamtsarbeit in der E-Sport-Community</p></div>
+        </div>
+        <div class="vision-block"><div class="vision-label">Unsere Vision</div><p>Gaming-Leidenschaft, strukturierte Methodik und professionelles Employer Branding vereinen. Wir zeigen, wie Gaming und E-Sport als seriöse Werkzeuge für Talentgewinnung, Mitarbeiterbindung und moderne Arbeitgebermarken eingesetzt werden können.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="glow-divider"></div>
+
+<!-- 4. PLAN -->
+<section id="plan">
+  <div class="container">
+    <div class="section-label reveal">Ablauf</div>
+    <h2 class="reveal reveal-d1" style="text-align:center">Wie wir <span class="gradient-text">zusammenarbeiten.</span></h2>
+    <p class="plan-sub reveal reveal-d1">Von der ersten Anfrage bis zum messbaren Ergebnis.</p>
+    <div class="plan-grid">
+      <div class="plan-step reveal reveal-d2"><div class="step-num">01</div><h3>Briefing & Analyse</h3><p>Wir verstehen Ihr Team, Ihre Ziele und den aktuellen Stand der Zusammenarbeit, bevor wir ein Format empfehlen.</p></div>
+      <div class="plan-step reveal reveal-d3"><div class="step-num">02</div><h3>Konzept & Format</h3><p>Kein Standard-Paket. Wir entwickeln ein individuelles Szenario, das auf Ihre konkreten Ziele einzahlt.</p></div>
+      <div class="plan-step reveal reveal-d4"><div class="step-num">03</div><h3>Durchführung</h3><p>Professionell moderierte Session, vor Ort oder hybrid. Mit Beobachtungsraster und strukturierter Reflexion.</p></div>
+      <div class="plan-step reveal reveal-d5"><div class="step-num">04</div><h3>Auswertung & Transfer</h3><p>Schriftlicher Bericht, Handlungsempfehlungen, optionales Follow-up. Was sich verändert hat, messen wir gemeinsam.</p></div>
+    </div>
+    <div style="text-align:center;margin-top:44px" class="reveal reveal-d5"><a href="#erstgespraech" class="btn-gradient">Erstgespräch buchen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
+  </div>
+</section>
+<div class="glow-divider"></div>
+
+<!-- 5. STAKES -->
+<section id="stakes">
+  <div class="container">
+    <div class="section-label reveal">Perspektive</div>
+    <h2 class="reveal reveal-d1" style="text-align:center">Die Frage ist nicht ob,<br>sondern <span class="gradient-text">wann.</span></h2>
+    <div class="stakes-cols">
+      <div class="stake-box neg reveal reveal-d2">
+        <div class="stake-title neg"><span class="stake-dot neg"></span>Wenn ihr nichts verändert</div>
+        <ul class="stake-items">
+          <li><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>Bewerbungsprozesse bleiben austauschbar und ihr verliert Talente an mutigere Arbeitgeber</li>
+          <li><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>Teamprobleme kosten weiter Zeit, Geld und gute Leute</li>
+          <li><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>Euer Messestand geht in der Masse unter</li>
+          <li><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>Die Lücke zwischen eurem Unternehmen und der nächsten Generation wird größer</li>
+        </ul>
+      </div>
+      <div class="stake-box pos reveal reveal-d3">
+        <div class="stake-title pos"><span class="stake-dot pos"></span>Wenn ihr jetzt handelt</div>
+        <ul class="stake-items">
+          <li><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Ihr erkennt frühzeitig, welche Bewerber wirklich ins Team passen</li>
+          <li><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Eure Teams arbeiten besser zusammen, weil sie sich wirklich kennen</li>
+          <li><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Ihr fallt auf, positiv und nachhaltig</li>
+          <li><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Junge Talente sehen in euch einen Arbeitgeber, der ihre Sprache spricht</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="glow-divider"></div>
+
+<!-- 6. LEISTUNGEN (Sidebar Variante C) -->
+<section id="leistungen">
+  <div class="container">
+    <div class="section-label reveal">Leistungen</div>
+    <h2 class="reveal reveal-d1">Unsere Leistungen <span class="gradient-text">im Detail.</span></h2>
+    <div class="sidebar-layout reveal reveal-d2">
+      <div class="sidebar-nav" id="sidebarNav">
+        <div class="nav-item active" onclick="switchPanel(0)"><div class="s-nav-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div><div><div class="s-nav-title">Teambuilding & Soft-Skill Training</div><div class="s-nav-sub">Workshops & Events</div></div></div>
+        <div class="nav-item" onclick="switchPanel(1)"><div class="s-nav-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div><div><div class="s-nav-title">Recruiting & Assessment Center</div><div class="s-nav-sub">Spielerische Challenges</div></div></div>
+        <div class="nav-item" onclick="switchPanel(2)"><div class="s-nav-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><div><div class="s-nav-title">Jobmessen & Bewerbertage</div><div class="s-nav-sub">Gaming-Erlebnis</div></div></div>
+        <div class="nav-item" onclick="switchPanel(3)"><div class="s-nav-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div><div><div class="s-nav-title">Beratung für Unternehmen & Vereine</div><div class="s-nav-sub">Workshops & Strategie</div></div></div>
+      </div>
+      <div class="content-area">
+        <div class="content-panel active">
+          <div class="panel-header-row"><div class="panel-num">01</div><h3>Teambuilding &<br>Soft-Skill Training</h3></div>
+          <div class="panel-body"><p>Ein Team, das sich wirklich kennt, arbeitet anders zusammen. Besser. Schneller. Mit mehr Vertrauen. Genau das passiert, wenn Menschen gemeinsam Challenges meistern, Strategien entwickeln und unter echtem Druck füreinander einstehen. Nicht in einem Seminarraum mit Flipchart, sondern mitten im Geschehen.</p><p>Unsere gaming-basierten Formate schaffen das, was klassische Teambuildings selten schaffen: echte Zugehörigkeit, echte Bindung und das Gefühl, Teil von etwas Besonderem zu sein. Hier wird nicht einfach eine Konsole hingestellt. Hier entstehen Momente, die euer Team so schnell nicht vergisst.</p><p>Das Ergebnis: Mitarbeiter, die sich mit eurem Unternehmen identifizieren. Eine Arbeitgebermarke, die bei jungen Talenten als innovativ und mutig wahrgenommen wird. Und ein Team, das am nächsten Morgen anders ins Büro kommt.</p></div>
+          <div class="usp-box"><div class="usp-icon"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div class="usp-text"><div class="usp-label">Was uns unterscheidet</div><p>Zertifizierter E-Sport Eventmanager mit jahrelanger Erfahrung. Challenges mit echtem Wettbewerb, klaren Erkenntnissen und einem Format, das niemand so schnell vergisst.</p></div></div>
+          <div class="feature-pills"><span class="pill">Zugehörigkeit</span><span class="pill">Mitarbeiterbindung</span><span class="pill">Employer Branding</span><span class="pill">Identifikation</span><span class="pill">Arbeitgeberattraktivität</span></div>
+        </div>
+        <div class="content-panel">
+          <div class="panel-header-row"><div class="panel-num">02</div><h3>Recruiting &<br>Assessment Center</h3></div>
+          <div class="panel-body"><p>Wer auf dem Papier perfekt aussieht, muss im Team noch lange nicht funktionieren. Und wer im Vorstellungsgespräch nervös war, kann genau die Person sein, die euer Unternehmen weiterbringt. Ihr erfahrt es nur, wenn ihr echtes Verhalten seht.</p><p>Unsere gaming-basierten Assessments machen die Soft Skills eurer potenziellen Azubis und dualen Studenten sichtbar. In Challenges, die fordern, die Spaß machen und die zeigen, wie jemand wirklich tickt. Wer kommuniziert klar? Wer übernimmt Verantwortung? Wer hält den Druck aus und bleibt lösungsorientiert?</p><p>So findet ihr die Menschen, die wirklich zu euch passen. Weniger Fluktuation, weniger Fehlbesetzungen und die damit verbundenen Kosten. Stattdessen: Sicherheit bei jeder Personalentscheidung und Bewerber, die euren Prozess als echtes Erlebnis in Erinnerung behalten.</p></div>
+          <div class="usp-box"><div class="usp-icon"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div class="usp-text"><div class="usp-label">Was uns unterscheidet</div><p>Keine Konsole und Zocken. Strukturierte Challenges mit Beobachtungsraster, echtem Wettbewerb und messbaren Erkenntnissen zu jedem Kandidaten.</p></div></div>
+          <div class="feature-pills"><span class="pill">Soft-Skill-Analyse</span><span class="pill">Azubi-Recruiting</span><span class="pill">Fluktuation senken</span><span class="pill">Fehlbesetzungen vermeiden</span><span class="pill">Erlebnisfaktor</span></div>
+        </div>
+        <div class="content-panel">
+          <div class="panel-header-row"><div class="panel-num">03</div><h3>Jobmessen &<br>Bewerbertage</h3></div>
+          <div class="panel-body"><p>Hundert Stände. Tausend Flyer. Und überall dieselbe Frage: Warum sollte ich ausgerechnet zu euch? Die Wahrheit ist: Die meisten Messestände werden vergessen, bevor der Bewerber den nächsten Gang erreicht hat.</p><p>Mit unseren Gaming-Formaten passiert das Gegenteil. Euer Stand wird zum Ort, an dem man stehen bleibt. Mitmacht. Lacht. Sich misst. Und danach den Kollegen erzählt: "Da musst du hin." Wir schaffen Erlebnisse, die Verweildauer verlängern, persönlichere Einblicke ermöglichen und echte Aufmerksamkeit erzeugen.</p><p>Das Ergebnis: Ihr zeigt euch als der Arbeitgeber, der neue Wege geht. Modern, mutig, zukunftsorientiert. Genau die Eigenschaften, nach denen die nächste Generation sucht.</p></div>
+          <div class="usp-box"><div class="usp-icon"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div class="usp-text"><div class="usp-label">Was uns unterscheidet</div><p>Kein Standard-Messestand mit Kugelschreibern. Gaming-Events mit Wettbewerb, Challenges und dem Faktor, den kein Flyer der Welt ersetzen kann: echte Emotionen.</p></div></div>
+          <div class="feature-pills"><span class="pill">Employer Branding</span><span class="pill">Sichtbarkeit</span><span class="pill">Gen Z erreichen</span><span class="pill">Arbeitgeberattraktivität</span><span class="pill">Verweildauer steigern</span></div>
+        </div>
+        <div class="content-panel">
+          <div class="panel-header-row"><div class="panel-num">04</div><h3>Beratung für<br>Unternehmen & Vereine</h3></div>
+          <div class="panel-body"><p>Gaming und E-Sport sind längst mehr als Freizeitbeschäftigung. Sie sind Werkzeuge, mit denen sich Arbeitgebermarken aufbauen, Mitarbeiter binden und völlig neue Zielgruppen erschließen lassen. Die Frage ist nur: Wie integriert man das sinnvoll ins eigene Unternehmen oder den eigenen Verein?</p><p>Genau hier setzen wir an. In unseren Beratungen und Workshops erarbeiten wir gemeinsam, wie Gaming und E-Sport strategisch eingesetzt werden können. Kein Trend-Hopping, sondern fundierte Konzepte, die zu eurer Kultur und euren Zielen passen.</p><p>Für Unternehmen, die als Arbeitgeber sichtbarer werden wollen. Für Vereine, die neue Mitglieder gewinnen möchten. Für alle, die den Mut haben, Dinge anders zu machen als alle anderen.</p></div>
+          <div class="usp-box"><div class="usp-icon"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div class="usp-text"><div class="usp-label">Was uns unterscheidet</div><p>Keine theoretische Agentur-Beratung. Phillip Holler bringt echte E-Sport-Erfahrung, jahrelanges Ehrenamt in der Community und zertifiziertes Eventmanagement an euren Tisch.</p></div></div>
+          <div class="feature-pills"><span class="pill">Employer Branding</span><span class="pill">Mitarbeiterbindung</span><span class="pill">Sichtbarkeit</span><span class="pill">Unternehmen & Vereine</span><span class="pill">Zukunftsorientiert</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="glow-divider"></div>
+
+<!-- 7. FINAL CTA -->
+<section id="erstgespraech" style="text-align:center">
+  <div class="container">
+    <div class="section-label reveal">Kontakt</div>
+    <h2 class="reveal reveal-d1">Lass uns <span class="gradient-text">reden.</span></h2>
+    <p class="reveal reveal-d2" style="font-size:18px;max-width:540px;margin:0 auto 44px;text-align:center">In 30 Minuten finden wir heraus, ob und wie Gaming euer Unternehmen voranbringen kann. Kostenlos, unverbindlich und garantiert ohne PowerPoint.</p>
+    <div class="reveal reveal-d3">
+      <!-- Calendly inline widget begin -->
+      <div class="calendly-inline-widget" data-url="https://calendly.com/phillip-gametalentconnect/kennenlernen-mit-phillip-holler" style="min-width:320px;height:700px;"></div>
+      <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+      <!-- Calendly inline widget end -->
+    </div>
+  </div>
+</section>
+<div class="glow-divider"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><a href="#" class="nav-logo">Game <span>Talent</span> Connect</a><p>Gaming-basiertes Recruiting, Teambuilding und HR-Beratung für Unternehmen, die anders denken.</p></div>
+      <div class="footer-col"><h4>Navigation</h4><a href="#hero">Startseite</a><a href="#leistungen">Leistungen</a><a href="#vertrauen">Über mich</a><a href="#erstgespraech">Kontakt</a></div>
+      <div class="footer-col"><h4>Rechtliches</h4><a href="#" href="impressum.html">Impressum</a><a href="#" href="datenschutz.html">Datenschutz</a></div>
+      <div class="footer-nl"><h4>Newsletter</h4><p>Impulse zu Gaming, Recruiting und Teambuilding. Kein Spam, nur Relevantes.</p><div style="padding:16px;border:1px dashed rgba(0,190,215,0.2);border-radius:8px;text-align:center;margin-top:8px"><span style="font-size:14px;font-weight:700;color:var(--cyan);letter-spacing:1px">COMING SOON</span><p style="font-size:11px;margin-top:6px;color:var(--dim)">Der Newsletter befindet sich im Aufbau.</p></div></div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Game Talent Connect. Alle Rechte vorbehalten.</span>
+      <div class="footer-socials">
+        <a href="https://www.linkedin.com/in/phillip-holler-game-talent-connect-97a477210/" target="_blank" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6zM2 9h4v12H2zM4 6a2 2 0 100-4 2 2 0 000 4z"/></svg></a>
+        <a href="https://www.instagram.com/game_talent_connect/" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg></a>
+        
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- IMPRESSUM -->
+
+
+<!-- DATENSCHUTZ -->
+
+
+<script>
+document.querySelectorAll('.reveal').forEach(function(el) {
+  new IntersectionObserver(function(entries) {
+    if(entries[0].isIntersecting) entries[0].target.classList.add('visible');
+  }, {threshold:0.12}).observe(el);
+});
+var navItems = document.querySelectorAll('.nav-item');
+var panels = document.querySelectorAll('.content-panel');
+setTimeout(function() { var sn = document.getElementById('sidebarNav'); if(sn) sn.classList.add('loaded'); }, 200);
+function switchPanel(i) { navItems.forEach(function(n){n.classList.remove('active')}); panels.forEach(function(p){p.classList.remove('active')}); navItems[i].classList.add('active'); panels[i].classList.add('active'); }
+function openLegal(id) { document.getElementById(id).classList.add('active'); document.body.style.overflow='hidden'; }
+function closeLegal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow=''; }
+function closeAllLegal() { document.querySelectorAll('.legal-overlay').forEach(function(o){o.classList.remove('active')}); document.body.style.overflow=''; }
+document.querySelectorAll('.nav-links a').forEach(function(a) { a.addEventListener('click', function() { document.getElementById('navLinks').classList.remove('open'); }); });
+document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeAllLegal(); });
+</script>
+</body>
+</html>
