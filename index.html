@@ -60,7 +60,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 /* === 1. HERO === */
 .hero{min-height:100vh;display:flex;align-items:center;padding:120px 0 100px}
 .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,190,215,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,190,215,0.05) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,black 20%,transparent 70%)}
-.orb{position:absolute;border-radius:50%;filter:blur(120px);pointer-events:none;animation:orbFloat 8s ease-in-out infinite alternate}
+.orb{position:absolute;border-radius:50%;filter:blur(120px);pointer-events:none;animation:orbFloat 8s ease-in-out infinite alternate;will-change:transform;backface-visibility:hidden}
 .orb-1{width:400px;height:400px;background:var(--cyan);opacity:0.2;top:5%;left:-5%}
 .orb-2{width:300px;height:300px;background:var(--blue);opacity:0.18;bottom:10%;right:15%;animation-delay:-3s}
 .orb-3{width:200px;height:200px;background:var(--deep);opacity:0.25;top:40%;left:40%;animation-delay:-5s}
@@ -449,8 +449,8 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:64px
     <p class="reveal reveal-d2" style="font-size:18px;max-width:540px;margin:0 auto 44px;text-align:center">In 30 Minuten finden wir heraus, ob und wie Gaming euer Unternehmen voranbringen kann. Kostenlos, unverbindlich und garantiert ohne PowerPoint.</p>
     <div class="reveal reveal-d3">
       <!-- Calendly inline widget begin -->
-      <div class="calendly-inline-widget" data-url="https://calendly.com/phillip-gametalentconnect/kennenlernen-mit-phillip-holler" style="min-width:320px;height:700px;"></div>
-      <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async defer></script>
+      <div id="calendly-widget" style="min-width:320px;height:700px;"></div>
+      <noscript><a href="https://calendly.com/phillip-gametalentconnect/kennenlernen-mit-phillip-holler" style="color:var(--cyan);text-decoration:underline">Bei Calendly buchen</a></noscript>
       <!-- Calendly inline widget end -->
     </div>
   </div>
@@ -494,6 +494,7 @@ function closeLegal(id) { document.getElementById(id).classList.remove('active')
 function closeAllLegal() { document.querySelectorAll('.legal-overlay').forEach(function(o){o.classList.remove('active')}); document.body.style.overflow=''; }
 document.querySelectorAll('.nav-links a').forEach(function(a) { a.addEventListener('click', function() { document.getElementById('navLinks').classList.remove('open'); }); });
 document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeAllLegal(); });
+var calendlyLoaded=false;new IntersectionObserver(function(entries){if(entries[0].isIntersecting&&!calendlyLoaded){calendlyLoaded=true;var s=document.createElement('script');s.src='https://assets.calendly.com/assets/external/widget.js';s.async=true;s.defer=true;s.onload=function(){if(window.Calendly){var el=document.getElementById('calendly-widget');if(el&&el.innerHTML===''){el.innerHTML='<div class="calendly-inline-widget" data-url="https://calendly.com/phillip-gametalentconnect/kennenlernen-mit-phillip-holler"></div>';window.Calendly.initInlineWidget({url:'https://calendly.com/phillip-gametalentconnect/kennenlernen-mit-phillip-holler',parentElement:el})}}};document.head.appendChild(s)}},{threshold:0.1}).observe(document.getElementById('calendly-widget'));
 </script>
 </body>
 </html>
