@@ -80,10 +80,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .portrait-arc{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:94%;aspect-ratio:1;border-radius:50%;border:1px solid rgba(0,190,215,0.1)}
 .portrait-arc::before{content:'';position:absolute;top:-1px;left:15%;width:35%;height:3px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);border-radius:2px}
 .portrait-img{position:relative;z-index:2;width:100%;border-radius:20px;mask-image:linear-gradient(to bottom,black 0%,black 65%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,black 0%,black 65%,transparent 100%);filter:brightness(0.92) contrast(1.05)}
-.scroll-indicator{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;z-index:20;opacity:0;animation:fadeUp 0.8s ease forwards 1.4s;pointer-events:none}
-.scroll-indicator span{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(240,244,248,0.25)}
-.scroll-line{width:1px;height:36px;background:linear-gradient(to bottom,var(--cyan),transparent);animation:scrollPulse 2s ease-in-out infinite}
-@keyframes scrollPulse{0%,100%{opacity:0.3;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.2)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 
 /* === 2. ANGEBOT === */
@@ -144,7 +140,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .plan-step:hover{border-color:rgba(0,190,215,0.2);transform:translateY(-6px)}
 .plan-step::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--blue));opacity:0;transition:opacity 0.4s}
 .plan-step:hover::before{opacity:1}
-.step-num{font-size:56px;font-weight:900;letter-spacing:-3px;background:linear-gradient(180deg,rgba(0,190,215,0.12),transparent);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:16px}
+.step-num{font-size:56px;font-weight:900;letter-spacing:-3px;background:linear-gradient(180deg,rgba(0,190,215,0.25),transparent);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:16px}
 .plan-step h3{font-size:18px;letter-spacing:-0.5px}
 .plan-step p{font-size:13px}
 
@@ -187,7 +183,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .content-panel{display:none;animation:panelSlide 0.5s cubic-bezier(.22,1,.36,1)}
 .content-panel.active{display:block}
 .panel-header-row{display:flex;align-items:center;gap:16px;margin-bottom:32px}
-.panel-num{font-size:56px;font-weight:900;letter-spacing:-3px;line-height:1;background:linear-gradient(180deg,rgba(0,190,215,0.15),transparent);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.panel-num{font-size:56px;font-weight:900;letter-spacing:-3px;line-height:1;background:linear-gradient(180deg,rgba(0,190,215,0.25),transparent);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .panel-header-row h3{font-size:28px;letter-spacing:-1px}
 .panel-body p{font-size:16px;margin-bottom:16px;line-height:1.9}
 .usp-box{margin-top:32px;padding:24px 28px;background:linear-gradient(135deg,rgba(0,190,215,0.06),rgba(60,90,220,0.04));border:1px solid rgba(0,190,215,0.12);border-radius:14px;display:flex;align-items:flex-start;gap:16px}
